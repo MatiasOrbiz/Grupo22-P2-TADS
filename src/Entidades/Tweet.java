@@ -3,6 +3,15 @@ package Entidades;
 import java.util.Set;
 
 public class Tweet {
+    public Tweet(long id, String content, String source, boolean isRetweet, String date, Set<HashTag> hashTags, User user) {
+        this.id = id;
+        this.content = content;
+        this.source = source;
+        this.isRetweet = isRetweet;
+        this.date = date;
+        this.hashTags = hashTags;
+        this.user = user;
+    }
     private long id;
     private String content;
     private String source;

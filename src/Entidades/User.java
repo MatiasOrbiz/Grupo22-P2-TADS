@@ -4,6 +4,11 @@ import java.util.Set;
 
 public class User {
     private long id;
+
+    public int getFavoritesCount() {
+        return favoritesCount;
+    }
+
     private String name;
     private int tweetsCount;
     private int favoritesCount;
@@ -26,6 +31,10 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    public void setFavoritesCount(int favoritesCount) {
+        this.favoritesCount = favoritesCount;
     }
 
     public void setName(String name) {
