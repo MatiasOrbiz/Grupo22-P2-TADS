@@ -7,8 +7,10 @@ public class Tweet {
     private String content;
     private String source;
     private boolean isRetweet;
+    private String date;
     private Set<HashTag> hashTags;
     private User user;
+
 
     public Tweet(long id, String content, String source, boolean isRetweet) {
         this.id = id;
@@ -64,6 +66,14 @@ public class Tweet {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }
 
