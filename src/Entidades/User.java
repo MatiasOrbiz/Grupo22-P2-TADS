@@ -4,6 +4,7 @@ import java.util.Set;
 
 public class User {
     private long id;
+    private String location;
 
     public int getFavoritesCount() {
         return favoritesCount;
@@ -63,5 +64,9 @@ public class User {
 
     public void setVerified(boolean verified) {
         isVerified = verified;
+    }
+
+    public void setLocation(String s) {
+        this.location = s ;
     }
 }
