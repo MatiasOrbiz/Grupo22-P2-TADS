@@ -2,9 +2,13 @@ package Entidades;
 
 import java.util.Set;
 
-public class User {
+public class User implements Comparable<User> {
+
     private long id;
     private String location;
+    private String description;
+    private String created;
+
 
     public int getFavoritesCount() {
         return favoritesCount;
@@ -69,4 +73,20 @@ public class User {
     public void setLocation(String s) {
         this.location = s ;
     }
+
+    public void setDescription(String s) { this.description = s; }
+
+    public void setCreated(String s) { this.created = s; }
+
+    public void setFollowers(int parseInt) { this.tweetsCount = parseInt; }
+
+    public void setFriends(int parseInt) { this.tweetsCount = parseInt; }
+
+
+    @Override
+    public int compareTo(User o) {
+        return this.tweetsCount - o.tweetsCount;
+    }
 }
+
+

@@ -1,9 +1,10 @@
 package Entidades;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 public class Tweet {
-    public Tweet(long id, String content, String source, boolean isRetweet, String date, Set<HashTag> hashTags, User user) {
+    public Tweet(long id, String content, String source, boolean isRetweet, LocalDateTime date, Set<HashTag> hashTags, User user) {
         this.id = id;
         this.content = content;
         this.source = source;
@@ -16,7 +17,7 @@ public class Tweet {
     private String content;
     private String source;
     private boolean isRetweet;
-    private String date;
+    private LocalDateTime date;
     private Set<HashTag> hashTags;
     private User user;
 
@@ -77,11 +78,11 @@ public class Tweet {
         this.user = user;
     }
 
-    public String getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 }

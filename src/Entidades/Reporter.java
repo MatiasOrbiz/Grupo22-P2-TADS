@@ -1,62 +1,71 @@
 package Entidades;
 import java.time.*;
-import java.util.ArrayList;
 import java.util.*;
 import java.util.Set;
-import java.time.format.DateTimeFormatter;
-import java.util.stream.Collectors;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public class Reporter {
-    public String[] getTopPilots(Set<Tweet> tweets,String month, String year){
-        // Convert month and year to LocalDate
-        LocalDate inputDate = LocalDate.of(Integer.parseInt(year), Month.valueOf(month.toUpperCase()), 1);
-        // DateTimeFormatter to parse tweet dates
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        // HashMap to count occurrences of pilots
-        HashMap<String, Integer> counts = new HashMap<>();
+    private boolean isDriver (String driver, String description ) {
+        String[] words = description.split(" ");
+        System.out.println(description);
+        String[] drivers = driver.split(" ");
 
-        for (Tweet tweet : tweets) {
-            // Parse tweet's date string to LocalDate
-            LocalDate tweetDate = LocalDate.parse(tweet.getDate(), formatter);
-
-            // Filter tweets from the given month and year
-            if (tweetDate.getMonth() == inputDate.getMonth() && tweetDate.getYear() == inputDate.getYear()) {
-                String pilot = tweet.getUser().getName(); // Assuming the pilot's name is in the name field of User
-                counts.put(pilot, counts.getOrDefault(pilot, 0) + 1);
+        for (String word : words) {
+            if (word.toLowerCase().equals(drivers[0].toLowerCase()) || word.toLowerCase().equals(drivers[1].toLowerCase())) {
+                return true;
             }
         }
-
-        // Sort the map by value in descending order
-        List<Map.Entry<String, Integer>> list = new ArrayList<>(counts.entrySet());
-        list.sort(Map.Entry.<String, Integer>comparingByValue().reversed());
-
-        // Create an array of the top 10 (or fewer) pilots
-        String[] topPilots = new String[Math.min(10, list.size())];
-        for (int i = 0; i < topPilots.length; i++) {
-            topPilots[i] = list.get(i).getKey() + ": " + list.get(i).getValue();
-        }
-
-        return topPilots;
+        return false;
     }
 
-    public User[] getTopUsers(Set<Tweet> tweets){
+    public HashMap<String, Integer> getTopPilots(Set<Tweet> tweets, String month, String year){
         // HashMap to count occurrences of users
-        HashMap<User, Integer> counts = new HashMap<>();
+        HashMap<String, Integer> counts = new HashMap<>();
+        try {
+            File myFile = new File("drivers.txt");
+            Scanner myReader = new Scanner(myFile);
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                counts.put(data, 0);
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+
 
         for (Tweet tweet : tweets) {
-            User user = tweet.getUser();
-            counts.put(user, counts.getOrDefault(user, 0) + 1);
+            LocalDateTime date = tweet.getDate();
+            if (date.getMonthValue() == Integer.parseInt(month) && date.getYear() == Integer.parseInt(year)) {
+                //System.out.println(tweet.getContent());
+                String description = tweet.getContent();
+                for (String driver : counts.keySet()) {
+                   // System.out.println(driver.length());
+                    if (isDriver(driver, description)) {
+                       // System.out.println(driver.length());
+                        counts.put(driver, counts.get(driver) + 1);
+                    }
+                }
+
+            }
         }
-
-        // Sort the map by value in descending order
-        List<Map.Entry<User, Integer>> list = new ArrayList<>(counts.entrySet());
-        list.sort(Map.Entry.<User, Integer>comparingByValue().reversed());
-
-        // Create an array of the top 15 (or fewer) users
-        List<User> topUsers = list.stream().limit(15).map(Map.Entry::getKey).collect(Collectors.toList());
-
-        return topUsers.toArray(new User[0]);
+        return counts;
     }
+
+
+    public List<User> getTopUsers(){
+
+        List<User> topUsers = Sistema.getUsers();
+        Collections.sort(topUsers);
+
+        return topUsers.subList(topUsers.size()-15, topUsers.size());
+
+
+        //return topUsers.toArray(new User[0]);
+    }
+    /*
     public int getDifferentHashtags(Set<Tweet> tweets, String date){
         // Convert the string date to LocalDate
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -150,5 +159,7 @@ public class Reporter {
 
             return count;
         }
+        /
+     */
 }
 

@@ -1,8 +1,12 @@
 package services;
+import java.awt.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import Entidades.Sistema;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 import Entidades.Tweet;
@@ -53,14 +57,24 @@ public class CSVDataLoader {
                             + ", is_retweet: " + nextLine[13]);
 
 
+
                     //mapeo usuario y tweet
                     User user = new User(Long.parseLong(nextLine[0]), nextLine[1]);
                     user.setLocation(nextLine[2]);
                     user.setDescription(nextLine[3]);
                     user.setCreated(nextLine[4]);
-                    user.setFollowers(Integer.parseInt(nextLine[5]));
-                    user.setFriends(Integer.parseInt(nextLine[6]));
-                    user.setFavoritesCount(Integer.parseInt(nextLine[7]));
+
+                    int followers = Integer.parseInt(nextLine[5].replace(".", ""));
+
+                    user.setFollowers(Integer.parseInt(String.valueOf(followers)));
+
+                    int friends = Integer.parseInt(nextLine[6].replace(".", ""));
+
+                    user.setFriends(Integer.parseInt(String.valueOf(friends)));
+
+                    int favorites = Integer.parseInt(nextLine[7].replace(".", ""));
+
+                    user.setFavoritesCount(Integer.parseInt(String.valueOf(favorites)));
 
 
 
@@ -69,11 +83,15 @@ public class CSVDataLoader {
 
                     int number = Integer.parseInt(nextLine[7].replace(".", ""));
 
-                    Tweet tweet = new Tweet(Long.parseLong(String.valueOf(number)), nextLine[9], nextLine[11], Boolean.parseBoolean(nextLine[12]));
-                    tweet.setUser(user);
-                    tweet.setDate(nextLine[8]);
 
-                    Set<User> usuarios = Sistema.getUsers();
+                    Tweet tweet = new Tweet(Long.parseLong(String.valueOf(number)), nextLine[10], nextLine[11], Boolean.parseBoolean(nextLine[12]));
+
+                    tweet.setUser(user);
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    LocalDateTime dateTime = LocalDateTime.parse(nextLine[9], formatter);
+                    tweet.setDate(dateTime);
+
+                    List<User> usuarios = Sistema.getUsers();
                     boolean existeUsuario = usuarios.contains(user);
 
                     if (!existeUsuario) {
@@ -103,7 +121,7 @@ public class CSVDataLoader {
                     }
 
 
-                    System.out.println("user"+ user);
+                    Sistema.addTweet(tweet);
                 }
             }
         } catch (IOException e) {
@@ -114,6 +132,7 @@ public class CSVDataLoader {
     public Set<Tweet> getTweets() {
         return null;
     }
+
 
     public Set<User> getUsers() {
         return null;

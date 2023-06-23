@@ -1,7 +1,7 @@
 package uy.edu.um.prog2.adt.LinkedList;
 import uy.edu.um.prog2.adt.LinkedList.MyList;
 import uy.edu.um.prog2.adt.LinkedList.Node;
-//Mateo estuvo aca
+
 public class MiLinkedList<T> implements MyList<T> {
 
     private Node<T> first;
