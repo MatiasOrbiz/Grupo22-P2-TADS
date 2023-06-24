@@ -2,7 +2,7 @@ package Entidades;
 
 import java.util.Set;
 
-public class User implements Comparable<User> {
+public class User  {
 
     private long id;
     private String location;
@@ -30,20 +30,12 @@ public class User implements Comparable<User> {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setFavoritesCount(int favoritesCount) {
         this.favoritesCount = favoritesCount;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Set<Tweet> getTweets() {
@@ -60,10 +52,6 @@ public class User implements Comparable<User> {
 
     public int getTweetsCount() {
         return tweetsCount;
-    }
-
-    public void setTweetsCount(int tweetsCount) {
-        this.tweetsCount = tweetsCount;
     }
 
     public void setVerified(boolean verified) {
@@ -83,10 +71,7 @@ public class User implements Comparable<User> {
     public void setFriends(int parseInt) { this.tweetsCount = parseInt; }
 
 
-    @Override
-    public int compareTo(User o) {
-        return this.tweetsCount - o.tweetsCount;
-    }
+
 }
 
 

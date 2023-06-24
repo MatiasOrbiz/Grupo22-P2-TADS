@@ -3,6 +3,8 @@ import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
+
+import Entidades.HashTag;
 import Entidades.Sistema;
 import java.io.FileReader;
 import java.io.IOException;
@@ -68,6 +70,10 @@ public class CSVDataLoader {
 
                     user.setFollowers(Integer.parseInt(String.valueOf(followers)));
 
+                    if (!isNumeric(nextLine[6])) {
+                        continue;
+                    }
+
                     int friends = Integer.parseInt(nextLine[6].replace(".", ""));
 
                     user.setFriends(Integer.parseInt(String.valueOf(friends)));
@@ -85,6 +91,15 @@ public class CSVDataLoader {
 
 
                     Tweet tweet = new Tweet(Long.parseLong(String.valueOf(number)), nextLine[10], nextLine[11], Boolean.parseBoolean(nextLine[12]));
+                    nextLine[11] = nextLine[11].replace("[", "").replace("]", "").replace("'", "").replace(" ", "");
+                    String[] arr = nextLine[11].split(",");
+                    Set<HashTag> set = new HashSet<>();
+                    for (int i = 0; i < arr.length; i++) {
+                        HashTag hashTag = new HashTag();
+                        hashTag.setText(arr[i]);
+                        set.add(hashTag);
+                    }
+                    tweet.setHashTags(set);
 
                     tweet.setUser(user);
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

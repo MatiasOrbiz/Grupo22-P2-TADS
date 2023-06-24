@@ -8,9 +8,8 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         CSVDataLoader loader = new CSVDataLoader();
-        loader.loadCSVData("f1_dataset_test.csv");
-        Set<Tweet> tweets = Sistema.getTweets(); // Asume que tienes un método para obtener los tweets.
-        Set<User> users = loader.getUsers(); // Asume que tienes un método para obtener los usuarios.
+        loader.loadCSVData("f1_dataset.csv");
+        Set<Tweet> tweets = Sistema.getTweets();
         Reporter reporter = new Reporter();
         Scanner s = new Scanner(System.in);
 
@@ -39,31 +38,31 @@ public class Main {
                 break;
 
             case "3":
-                /*System.out.println("Ingrese la fecha (en formato 'yyyy-MM-dd'):");
+                System.out.println("Ingrese la fecha (en formato 'yyyy-MM-dd'):");
                 String date = s.nextLine();
                 int count = reporter.getDifferentHashtags(tweets, date);
-                System.out.println("Cantidad de hashtags distintos: " + count);*/
+                System.out.println("Cantidad de hashtags distintos: " + count);
                 break;
 
             case "4":
-              /*  System.out.println("Ingrese la fecha (en formato 'yyyy-MM-dd'):");
+               System.out.println("Ingrese la fecha (en formato 'yyyy-MM-dd'):");
                 date = s.nextLine();
                 String hashtag = reporter.getMostUsedHashtag(tweets, date);
-                System.out.println("Hashtag más usado: " + hashtag);*/
+                System.out.println("Hashtag más usado: " + hashtag);
                 break;
 
             case "5":
-//                String[] activeUsers = reporter.getMostActiveUser(users.toArray(new User[0]));
-//                for (String activeUser : activeUsers) {
-//                    System.out.println(activeUser);
-//                }
+               String[] activeUsers = reporter.getMostActiveUser(Sistema.getUsers());
+                for (String activeUser : activeUsers) {
+               System.out.println(activeUser);
+              }
                 break;
 
             case "6":
-//                System.out.println("Ingrese la palabra o frase a buscar:");
-//                String search = s.nextLine();
-//                int tweetsCount = reporter.getTweetsCount(tweets, search);
-//                System.out.println("Cantidad de tweets que contienen '" + search + "': " + tweetsCount);
+            System.out.println("Ingrese la palabra o frase a buscar:");
+                String search = s.nextLine();
+                int tweetsCount = reporter.getTweetsCount(tweets, search);
+                System.out.println("Cantidad de tweets que contienen '" + search + "': " + tweetsCount);
                 break;
 
             default:
