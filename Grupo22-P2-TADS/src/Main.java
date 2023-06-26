@@ -3,17 +3,23 @@ import services.CSVDataLoader;
 import uy.edu.um.prog2.adt.LinkedList.MyList;
 
 import java.util.Scanner;
+
 public class Main {
-    public static void main(String[] args)  {
-        CSVDataLoader loader = new CSVDataLoader();
-        System.out.println("Cargando datos...");
-        loader.loadCSVData("f1_dataset_test.csv");
+
+    public static void main(String[] args) {
+
+        Runnable loadDataOperation = () -> {
+            CSVDataLoader loader = new CSVDataLoader();
+            System.out.println("Cargando datos...");
+            loader.loadCSVData("f1_dataset_test.csv");
+        };
+
+        calcularEficiencia(loadDataOperation);
+
         Reporter reporter = new Reporter();
         Scanner s = new Scanner(System.in);
 
         System.out.println("Bienvenido al sistema de reportes de Twitter.");
-
-
 
         do {
             System.out.println("1-topPilots");
@@ -85,6 +91,30 @@ public class Main {
         }while (true);
 
     }
+    public static void calcularEficiencia(Runnable code) {
+        // Ejecuta el recolector de basura
+        System.gc();
+        Runtime.getRuntime().gc();
 
+        // Tiempo de inicio
+        long startTime = System.nanoTime();
 
+        // Ejecuta el código
+        code.run();
+
+        // Tiempo de finalización
+        long endTime = System.nanoTime();
+
+        // Calcula la duración
+        long duration = endTime - startTime;
+
+        // Recopila estadísticas de memoria
+        Runtime rt = Runtime.getRuntime();
+        long totalMemory = rt.totalMemory();
+        long usedMemory = totalMemory - rt.freeMemory();
+
+        // Imprime los resultados
+        System.out.println("Cantidad de memoria RAM consumida: " + usedMemory + " bytes");
+        System.out.println("Tiempo de ejecución: " + (duration / 1e6) + " milisegundos");
+    }
 }
